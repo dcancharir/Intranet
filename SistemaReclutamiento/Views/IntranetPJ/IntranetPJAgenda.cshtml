@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LayoutIntranetPJ.cshtml";
+
+}
+@using System.Activities.Expressions
+@using System.Web.Script.Serialization
+@using System.Web.UI.WebControls
+@{
+    string tipo = new JavaScriptSerializer().Serialize(ViewBag.tipo);
+    String persona = new JavaScriptSerializer().Serialize(Session["perIntranet_full"]);
+    String usuario = new JavaScriptSerializer().Serialize(Session["usuIntranet_full"]);
+}
+
+
+<section id="singlepost">
+    <header>
+        <div class="loverate"><a href="#"><i class="fa fa-phone-square"></i></a></div>
+        <h1>Agenda Contactos</h1>
+
+    </header>
+</section>
+<div class="separador"></div>
+<section id="singlepost">
+    <table class="table table-bordered datatable_agenda" id="agenda_table" style="width:100%">
+        <tbody>
+            <tr>
+                <td colspan="7">
+                    <div class="alert alert-warning alert-dismissible text-center"><span>Listando Data</span></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+@section js
+{
+
+    <script type="text/javascript">
+        menu_id = 0;
+        persona = (@Html.Raw(persona));
+        usuario = (@Html.Raw(usuario));
+    </script>
+    <script src="~/Content/viewjs/IntranetPJ/IntranetPJLayoutView.js"></script>
+    <script src="~/Content/viewjs/IntranetPJ/IntranetPJAgenda.js"></script>
+    @* <script>
+       
+        var pathBase = $("#BasePath").val();
+        var url = pathBase + "IntranetPJ/IntranetListarAgenda";
+
+        var table=$('#agenda_table').DataTable({
+                "ajax": {
+                    "url" : url,
+                    "type" : "POST",
+                    "datatype" : "application/json"
+            },
+            "scrollX": true,
+                "columns": [
+                    {
+                        "className":      'details-control',
+                        "orderable":      false,
+                        "data":           null,
+                        "defaultContent": '',
+                        "width":"50px",
+                        "render":function(){
+                           return '<i class="fa fa-angle-double-up"></i><span class="sr-only">Detalle</span>';
+                        }
+                    },
+                    { 
+                        "title":"Nombre",
+                        "data" : "NO_TRAB", 
+                        "render":function(value, type, oData, meta){
+                            var span='';
+                            span+= oData.NO_APEL_PATE+' ' +oData.NO_APEL_MATE+ ', '+oData.NO_TRAB;
+                            return span;
+                        },
+                    },
+                    { 
+                        "title":"Celular",
+                        "data": "NU_TLF2", 
+                        "autoWidth": true 
+                    },
+                    { 
+                        "title":"Email",
+                        "data": "NO_DIRE_MAI1",
+                         "autoWidth": true 
+                    },
+                ]
+        })
+        $('#agenda_table tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+ 
+        if ( row.child.isShown() ) {
+            // la fila ya esta abierra, cerrar la fila y cambiar el icono
+            row.child.hide();
+            tr.removeClass('shown');
+            tr.find('i').removeClass('fa fa-angle-double-down'); 
+            tr.find('i').addClass('fa fa-angle-double-up'); 
+            tr.find('i').css("color","rgb(255, 0, 0)");
+            
+        }
+        else {
+            // Abrir la fila de detalle
+            row.child( detalle(row.data()) ).show();
+            var td=row.child().find("td:eq(0)");
+            td.css("padding-left",'2%')
+            tr.addClass('shown');
+            tr.find('i').removeClass('fa fa-angle-double-up'); 
+            tr.find('i').addClass('fa fa-angle-double-down');
+            tr.find('i').css("color","rgb(119, 119, 119)");
+        }
+        } );
+        function detalle ( d ) {
+            // d es la data que llena el datatable
+            return '<div style="border-left:6px solid rgb(255, 0, 0);"><table cellpadding="5" cellspacing="0" border="0" class="table table-sm table-bordered">'+
+                '<tr>'+
+                    '<td colspan="4"><h6 style="font-weigth:bold;"> DATOS DE : '+d.NO_APEL_PATE+' ' +d.NO_APEL_MATE+ ', '+d.NO_TRAB+'<h3></td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td style="width:30px;">EMPRESA </td>'+
+                    '<td>'+d.DE_NOMB+'</td>'+
+                    '<td style="width:30px;">ÁREA</td>'+
+                    '<td>'+d.DE_AREA+'</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td style="width:30px;">PUESTO</td>'+
+                    '<td>'+d.DE_PUES_TRAB+'</td>'+
+                    '<td style="width:30px;">CELULAR</td>'+
+                    '<td>'+d.NU_TLF2+'</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td style="width:30px;">TELÉFONO</td>'+
+                    '<td>'+d.NU_TLF1+'</td>'+
+                    '<td style="width:30px;">CORREO</td>'+
+                    '<td>'+d.NO_DIRE_MAI1+'</td>'+
+                '</tr>'+
+            '</table></div>';
+        }
+    </script> *@
+}

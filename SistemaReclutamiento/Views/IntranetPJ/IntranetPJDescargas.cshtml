@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LayoutIntranetPJ.cshtml";
+
+}
+@using System.Activities.Expressions
+@using System.Web.Script.Serialization
+@using System.Web.UI.WebControls
+@{
+    String persona = new JavaScriptSerializer().Serialize(Session["perIntranet_full"]);
+    String usuario = new JavaScriptSerializer().Serialize(Session["usuIntranet_full"]);
+}
+
+<section id="singlepost">
+    <header>
+        <div class="loverate"><a href="#"><i class="fa fa-download"></i></a></div>
+        <h1>Archivo(s) para Descarga</h1>
+
+    </header>
+</section>
+<div class="separador"></div>
+<section id="singlepost">
+    <table id="archivosListado" class="table table-condensed datatable-archivoslistado table-striped table-bordered table-hover" style="width:100%">
+        <tbody>
+            <tr>
+                <td colspan="6">
+                    <div class="alert alert-warning alert-dismissible text-center"><span>Listando Data</span></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+@section js
+{
+
+    <script type="text/javascript">
+        menu_id = 0;
+        persona = (@Html.Raw(persona));
+        usuario = (@Html.Raw(usuario));
+    </script>
+    <script src="~/Content/viewjs/IntranetPJ/IntranetPJLayoutView.js"></script>
+    <script src="~/Content/viewjs/IntranetPJ/IntranetPJDescargas.js"></script>
+}

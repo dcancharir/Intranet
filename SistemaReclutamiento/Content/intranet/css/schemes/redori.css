@@ -1,0 +1,51 @@
+.nav-bar > li.active {
+	background: #05a246;
+}
+
+	.nav-bar > li.active:hover,
+	.topcat,
+	.topcat .overlay .number,
+	.catf-format .fp,
+	.catf .catf-caption span.meta,
+	#mixedContent .overlay:hover > .title-carousel,
+	.tagcloud a,
+	ul.wl-category li.active > .cc,
+	ul.wl-category li:hover > .cc,
+	#singlepost .loverate {
+		background: #05a246;
+	}
+#maincontainer h2 a:hover,
+ul.breadcrumbs a,
+.merah,
+.tagcloud a:hover,
+#maincontainer a,
+.widget .stars,
+.widget a h2.wtitle:hover,
+ul.newsticker a{	
+	color: #FF0000;
+}
+
+.ticarousel{
+	border-left: 3px solid #FF0000;
+}
+
+#footer h3.blocktitle {
+	border-left: 1px solid #f39d08;
+	border-top: 1px solid #f39d08;
+}
+
+#singlepost header h1 {
+	border-left: 5px solid #05a246;
+}
+
+.mainbar .sf-arrows .sf-with-ul:after,
+.mainbar .sf-arrows ul li:hover > .sf-with-ul:after,
+.mainbar .sf-arrows ul .sfHover > .sf-with-ul:after {
+	border: 5px solid #f39d08 !important;
+}
+
+.tabs dd.active, 
+.tabs li.active,
+ul.accordion>li.active{
+	border-top: 3px solid #FF0000;
+}

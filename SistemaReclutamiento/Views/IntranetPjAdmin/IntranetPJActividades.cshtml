@@ -1,0 +1,135 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutIntranetPJAdmin.cshtml";
+}
+
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#">Inicio</a>
+            </li>
+            <li class="active">Panel Actividades</li>
+        </ul><!-- /.breadcrumb -->  
+    </div>
+
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="widget-box">
+                <div class="widget-header widget-header-flat widget-header-small">
+                    <h4 class="widget-title">Listado Actividades</h4>
+                    <span class="widget-toolbar">
+                        <a href="#" class="btn btn-sm btn-success btn-minier" data-action="settings" id="btn_nuevo"><i class="ace-icon fa fa-file"></i> Nuevo</a>
+                        <a href="#" class="btn btn-sm btn-danger btn-minier" data-action="settings" id="btn_eliminar_varios"><i class="ace-icon fa fa-trash-o"></i> Eliminar</a>
+                    </span>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <div>
+                            <table id="actividadesListado" class="table table-condensed datatable-actividadeslistado table-striped table-bordered table-hover">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="6">
+                                            <div class="alert alert-warning alert-dismissible text-center"><span>Listando Data</span></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.page-content -->
+
+
+<div class="modal fade" tabindex="-1" id="modalFormulario" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header blackheader">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="nf"><span id="tituloModalActividades"></span> Actividad</h4>
+            </div>
+            <div class="modal-body" id="">
+                <div class="row">
+                    <form class="" id="form_actividades" method="post">
+                        <input type="hidden" name="act_id" id="act_id" value="" />
+                        <input type="hidden" name="img_ubicacion" id="img_ubicacion" value="" />
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label>Titulo Actividad</label>
+                                <input type="text" name="act_descripcion" id="act_descripcion" class="form-control" placeholder="Titulo Actividad" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label>Fecha Actividad</label>
+                                <div class='input-group date' id='myDatepicker1' data-date-format="YYYY-MM-DD hh:mm A">
+                                    <input type='text' class="form-control" name="act_fecha" id="act_fecha" @*data-inputmask="'mask': 'DD/MM/YYYY hh:mm A'"*@ placeholder="Fecha de Inicio" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label>Adjuntar Icono (Opcional)</label>
+                                <label class="btn btn-warning" for="act_imagen">
+                                    <span id="spancv"><i class="fa fa-upload"></i>  Subir Icono</span>
+                                    <input id="act_imagen" name="act_imagen" type="file" class="form-control" style="display:none;" />
+                                </label>
+
+
+
+                                @*<label id="tituloIcono">Adjuntar Icono (Opcional)</label>
+                <label class="" for="act_imagen">
+                    <input id="act_imagen" name="act_imagen" type="file" class="form-control" />
+                </label>
+                <span id="spanImagen"></span>*@
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" style="display:none" id="divCV">
+                           
+                            <div class="col-md-4 col-lg-offset-3 col-xs-12 attachment" style="border: 0px solid black;padding: 5px;text-align: center;">
+                                <label class="col-md-12 col-xs-12">Icono Actual</label>
+                                <a id="frm_cv" href="#" class="atch-thumb" style="width:100%;">
+                                    <img id="icono_actual" style="width:100px;height:100px"/>
+                                    @*<i class="glyphicon glyphicon-save-file" style="font-size:120px;"></i>*@
+                                    <div class="file-name" style="width:100%;text-align:left;"><i class="fa fa-file"></i> <span id="cvnombre"></span></div>
+                                    <div class="file-name" style="width: 100%; text-align: left"><i class="fa fa-calendar"></i> <span id="cvfecha">*****</span></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label>Estado</label>
+                                <select class="form-control" name="act_estado" id="act_estado">
+                                    <option value="A" selected>Activo</option>
+                                    <option value="I">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-guardar btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                <button type="button" class="btn btn-cancelar  btn-dark" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section js
+{
+    <script src="~/Content/viewjs/IntranetPJAdmin/IntranetPJActividades.js"></script>
+}
+

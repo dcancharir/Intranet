@@ -1,0 +1,113 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutIntranetPJAdmin.cshtml";
+}
+
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Inicio</a>
+        </li>
+        <li class="active">Panel Saludo Cumpleaños</li>
+    </ul><!-- /.breadcrumb -->
+</div>
+
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="widget-box">
+                <div class="widget-header widget-header-flat widget-header-small">
+                    <h4 class="widget-title">Listado Saludo Cumpleaños</h4>
+                    <span class="widget-toolbar">
+                        <a href="#" class="btn btn-sm btn-danger btn-minier" data-action="settings" id="btn_eliminar_varios"><i class="ace-icon fa fa-trash-o"></i> Eliminar</a>
+                    </span>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <div>
+                            <table id="comentarioListado" class="table table-condensed datatable-comentariolistado table-striped table-bordered table-hover">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="6">
+                                            <div class="alert alert-warning alert-dismissible text-center"><span>Listando Data</span></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.page-content -->
+
+<div class="modal fade" tabindex="-1" id="modalFormulario" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header blackheader">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="nf"><span id="tituloModalComentario"></span> Menu</h4>
+            </div>
+            <div class="modal-body" id="">
+                <div class="row">
+                    <form class="" id="form_menus">
+                        <input type="hidden" name="menu_id" id="menu_id" value="" />
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label>Titulo</label>
+                                <input type="text" name="menu_titulo" id="menu_titulo" class="form-control" placeholder="Titulo" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label>URI</label>
+                                <input type="text" name="menu_url" id="menu_url" class="form-control" placeholder="URI" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label>Orden</label>
+                                <input type="number" name="menu_orden" id="menu_orden" min="1" class="form-control" value="1" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label>¿Se abrira en una pestaña nueva?</label>
+                                <select class="form-control" name="menu_blank" id="menu_blank">
+                                    <option value=false selected>No</option>
+                                    <option value=true>Si</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label>Estado</label>
+                                <select class="form-control" name="menu_estado" id="menu_estado">
+                                    <option value="A" selected>Activo</option>
+                                    <option value="I">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-guardar btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                <button type="button" class="btn btn-cancelar  btn-dark" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section js
+{
+    <script src="~/Content/viewjs/IntranetPJAdmin/IntranetPJComentarios.js"></script>
+}
+
+

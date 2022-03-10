@@ -1,0 +1,111 @@
+
+@{
+    Layout = "~/Views/Shared/_LayoutIntranetPJAdmin.cshtml";
+}
+
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Inicio</a>
+        </li>
+        <li class="active">Panel Pie de Pagina</li>
+    </ul><!-- /.breadcrumb -->
+</div>
+
+<div class="page-content">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-8 col-xs-12">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <h5 class="widget-title">
+                                <i class="ace-icon fa fa-signal"></i>
+                                Lado Izquierdo
+                            </h5>
+                            <div class="widget-toolbar">
+                                <a href="#" class="btn btn-minier btn-guardar-footer-izquierda btn-primary" data-action="settings"><i class="fa fa-save"></i> Guardar Lado I.</a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="row">
+                                    <form class="" id="form_footer_izquierda">
+                                        <input type="hidden" name="foot_posicion" value="I">
+                                        <input type="hidden" id="ruta_anterior_izquierda" name="ruta_anterior" value="">
+                                        <input type="hidden" id="estado_izquierda" name="foot_estado" value="">
+                                        <div class="col-md-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label>Titulo</label>
+                                                <input type="text" name="foot_descripcion" id="foot_descripcion_izquierda" class="form-control" placeholder="Titulo" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label>Imagen</label>
+                                                <input id="file_izquierda" name="foot_imagen" type="file" />
+                                                <div class="hr hr8 hr-double"></div>
+                                                @*<div class="col-md-6" id="preview_izquierda" style="height:260px; border-style:solid;"> <h1>Prev - Vista</h1></div>*@
+                                                <div class="col-md-12" id="imagen_actual_izquierda" style="height:260px; border-style:solid;"> <h1>Actual</h1></div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div><!-- /.widget-main -->
+                        </div><!-- /.widget-body -->
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-12">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <h5 class="widget-title">
+                                <i class="ace-icon fa fa-signal"></i>
+                                Lado Derecho
+                            </h5>
+                            <div class="widget-toolbar">
+                                <a href="#" class="btn btn-minier btn-guardar-footer-derecha btn-primary" data-action="settings"><i class="fa fa-save"></i> Guardar Lado D.</a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="row">
+                                    <form class="" id="form_footer_derecha">
+                                        <input type="hidden" id="ruta_anterior_derecha" name="ruta_anterior" value="">
+                                        <input type="hidden" id="estado_derecha" name="foot_estado" value="">
+                                        <input type="hidden" name="foot_posicion" value="D">
+                                        <div class="col-md-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label>Titulo</label>
+                                                <input type="text" name="foot_descripcion" id="foot_descripcion_derecha" class="form-control" placeholder="Titulo" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label>Imagen Derecha</label>
+                                                <input id="file_derecha" name="foot_imagen" type="file" />
+                                                <div class="hr hr8 hr-double"></div>
+                                                @*<div class="col-md-6" id="preview_derecha" style="height:260px;border-style:solid;"><h1>Pre - Vista</h1> </div>*@
+                                                <div class="col-md-12" id="imagen_actual_derecha" style="height:260px;border-style:solid;"> <h1>Actual</h1> </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div><!-- /.widget-main -->
+                        </div><!-- /.widget-body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.page-content -->
+
+@section js
+{
+    <script src="~/Content/viewjs/IntranetPJAdmin/IntranetPJFooter.js"></script>
+}
+

@@ -1,0 +1,892 @@
+﻿@using SistemaReclutamiento.Models;
+@using SistemaReclutamiento.Entidades;
+@using SistemaReclutamiento.Utilitarios;
+@using System.Globalization;
+@using SistemaReclutamiento.Utilitarios;
+@{
+    string nombre = "";
+    string fecha_archivos = Seguridad.EncriptarCadenaHASH(Convert.ToString(DateTime.Now));
+    if (Session["usuIntranet_full"] == null || Session["perIntranet_full"] == null)
+    {
+        Response.Redirect("~/IntranetPJ/Login");
+    }
+    else
+    {
+        UsuarioEntidad usuario = (UsuarioEntidad)Session["usuIntranet_full"];
+        PersonaEntidad persona = (PersonaEntidad)Session["perIntranet_full"];
+        nombre = persona.per_nombre + " " + persona.per_apellido_pat + " " + persona.per_apellido_mat;
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Intranet</title>
+    <!--BORRAR CACHE-->
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Last-Modified" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <link rel="shortcut icon" href="~/Content/images/icon.png">
+    @*<link rel="stylesheet" href="~/Content/intranetSGC/assets/css/bootstrap.min.css" />*@
+    <link rel="stylesheet" href="~/Content/intranet/style2.css?v=@fecha_archivos">
+    <script src="~/Content/intranet/js/modernizr.foundation.js?v=@fecha_archivos"></script>
+    <link rel="stylesheet" href="~/Content/intranet/css/venobox.css?v=@fecha_archivos" type="text/css" media="screen" />
+    <link rel="stylesheet" href="~/Content/intranet/css/PgwModal.css?v=@fecha_archivos" />
+
+
+    <!-- switch theme  remove this on live project -->
+    <link rel='stylesheet' href="~/Content/intranet/css/schemes/redori.css?v=@fecha_archivos" id="switchyuk" type='text/css' />
+
+    @* Archivos css *@
+    <link href="~/Content/vendors/select2/dist/css/select2.css?v=@fecha_archivos" rel="stylesheet" />
+    <link href="~/Content/vendors/bootstrapToogle/bootstrap4-toggle.min.css?v=@fecha_archivos" rel="stylesheet" />
+    <link href="~/Content/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css?v=@fecha_archivos" rel="stylesheet" />
+    <link href="~/Content/vendors/pnotify/dist/pnotify.css?v=@fecha_archivos" rel="stylesheet">
+    <link href="~/Content/vendors/pnotify/dist/pnotify.buttons.css?v=@fecha_archivos" rel="stylesheet">
+    <link href="~/Content/vendors/pnotify/dist/pnotify.nonblock.css?v=@fecha_archivos" rel="stylesheet">
+    <link href="~/Content/intranet/css/wysiwyg-editor.css" rel="stylesheet" />
+    @*<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">*@
+
+    @if (IsSectionDefined("AddToHead"))
+    {
+        @RenderSection("AddToHead", required: false)
+    }
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 6% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button */
+        .close {
+            color: #fff;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: -8px;
+            opacity:1;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #a09c9c;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .header_cumple {
+            background-color: #000;
+            padding: 9px;
+            color: #fff;
+            margin-top: -20px;
+            margin-left: -20px;
+            margin-right: -20px;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="cortina" style="background-color:#fff;position:absolute;z-index:10000;height:100%;width:100%;overflow:hidden">
+
+    </div>
+    <input type="hidden" name="basePath" id="BasePath" value="@Request.Url.Scheme://@((Request.Url.Authority + Request.ApplicationPath).TrimEnd('/'))/" />
+    @*<div id="BasePath" class="hidden">@Request.Url.Scheme://@((Request.Url.Authority + Request.ApplicationPath).TrimEnd('/'))/</div>*@
+    <nav class="pushy pushy-left">
+        <ul id="menuIntranet">
+            @*<li><a href="#">PJ NEWS</a></li>
+                <li><a href="#">SOMOS PJ</a></li>
+                <li><a href="#">POLÍTICAS</a></li>
+                <li><a href="#">CARRERA</a>
+                <li><a href="#">MI TIEMPO</a></li>
+                <li><a href="#">GESTION</a></li>*@
+        </ul>
+    </nav>
+
+    <!-- Site Overlay -->
+    <div class="site-overlay"></div>
+    <div id="container">
+        <header>
+            <!-- Header and Nav -->
+            <div class="row">
+                <div class="two columns">
+                    <div class="cuadro_logo">
+                        <img class="logo" src="~/Content/intranet/images/logo.png" alt="" title="">
+                    </div>
+                </div>
+                <div class="ten columns">
+                    <nav class="topbar">
+                        <div class="nine columns">
+                            <ul class="sf-menu sf-menu_" id="tobar">
+                                <li class="current">
+                                    <a class="" href="#"> Gladcon Group te da la bienvenida: @nombre</a>
+                                </li>
+                                <li style="background: #213f7f;margin-top: 1px;"><a href="#" class="btnCerrarSesion"><i class="fa fa-sign-out"></i> Salir</a></li>
+                            </ul>
+
+                        </div>
+                        <div class="three columns">
+                            <ul class="sf-menu sf-menu_" id="topsearch">
+                                <li class="">
+                                    <a href="#" style="border-right:0px">
+                                        @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(DateTime.Now.ToString("dddd")),  @DateTime.Now.ToString("MMMM")  @DateTime.Now.Day, @DateTime.Now.Year
+
+                                        @*@DateTime.Now.ToString("dddd, dd MMMM yyyy")*@
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="two columns"></div>
+                <div class="ten columns">
+
+                    <!-- off-canvas menus -->
+                    <ul id="logos" class="nav-bar">
+                        <li class="logos">
+                            <a href="~/">
+                                <img class="logo" src="~/Content/intranet/images/logo.png" alt="" title="">
+                            </a>
+                            <div class="menu-btn">&#9776; </div>
+                        </li>
+                    </ul>
+
+                    <nav class="mainbar" id="mainbar">
+                        @*<div class="one columns">
+                                <a href="#"><img class="logo" src="~/Content/intranet/images/logo.png" alt="" title=""></a>
+                            </div>*@
+                        <div class="twelve columns">
+                            <ul id="barnav" class="sf-menu nav-bar">
+                                @*<li class="active"><a href="#">PJ NEWS</a><ul></ul></li>
+                                    <li><a href="#">SOMOS PJ</a><ul></ul></li>
+                                    <li><a href="#">POLÍTICAS</a><ul></ul></li>
+                                    <li><a href="#">CARRERA</a><ul></ul></li>
+                                    <li><a href="#">MI TIEMPO</a><ul></ul></li>
+                                    <li><a href="#" class="">GESTION</a><ul></ul></li>*@
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <!-- Newsticker Area -->
+                    <div class="panel white">
+                        <div class="one columns">
+                            <div class="trending">Noticias</div>
+                        </div>
+                        <div class="eleven columns">
+                            <ul id="ticker01" style="height:20px;">
+                                @*<li><span>10/10/2007</span><a href="#/ogt/content/news/News183.complete">The first thing that most Javascript programmers</a></li>
+                                    <li><span>10/10/2007</span><a href="#/ogt/content/news/News175.complete">End up doing is adding some code</a></li>
+                                    <li><span>10/10/2007</span><a href="#/ogt/content/news/News177.complete">The code that you want to run</a></li>
+                                    <li><span>08/10/2007</span><a href="#/ogt/content/news/News176.complete">Inside of which is the code that you want to run</a></li>
+                                    <li><span>08/10/2007</span><a href="#/ogt/content/news/News178.complete">Right when the page is loaded</a></li>
+                                    <li><span>05/10/2007</span><a href="#/ogt/content/news/News173.complete">Problematically, however, the Javascript code</a></li>
+                                    <li><span>04/10/2007</span><a href="#/ogt/content/news/News183.complete">The first thing that most Javascript programmers</a></li>
+                                    <li><span>04/10/2007</span><a href="#/ogt/content/news/News175.complete">End up doing is adding some code</a></li>
+                                    <li><span>04/10/2007</span><a href="#/ogt/content/news/News177.complete">The code that you want to run</a></li>
+                                    <li><span>03/10/2007</span><a href="#/ogt/content/news/News176.complete">Inside of which is the code that you want to run</a></li>
+                                    <li><span>03/10/2007</span><a href="#/ogt/content/news/News178.complete">Right when the page is loaded</a></li>
+                                    <li><span>01/10/2007</span><a href="#/ogt/content/news/News173.complete">Problematically, however, the Javascript code</a></li>*@
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+
+        <div class="clear"></div>
+
+        <!-- main content -->
+        <div class="row">
+            <div class="twelve columns">
+                <section id="maincontainer">
+
+                    <!-- Side Left Main Conten Area -->
+                    <div class="eight columns">
+                        <div id="content">
+
+                            @RenderBody()
+
+                        </div>
+                        <div id="modalContent" style="display: none;">
+                            <div id="contenido_modal"></div>
+                        </div>
+                    </div>
+
+                    <div class="four columns gridleft">
+                        <aside>
+
+                            <div class="widget lreview">
+                                <h3 class="blocktitle">
+                                    <img src="~/Content/intranet/images/finder.png" class="img_title" /> LOCALES
+                                </h3>
+                                <ul id="locales" class="listreview">
+                                    <li data-tipo="Salas"><div class="ctitle wt2"><div class="cc" id="cantidadSalas">0</div> SALAS </div></li>
+                                    <li data-tipo="ApuestasDeportivas"><div class="ctitle wt3"><div class="cc" id="cantidadApuestasDeportivas">0</div> APUESTAS DEPORTIVAS </div></li>
+                                </ul>
+                            </div>
+
+
+                            <div class="widget wlistcat" id="cumpleaniosIntranet">
+                                <h3 class="blocktitle">CUMPLEAÑOS DE OCTUBRE </h3>
+                                <div class="getcat">
+                                    <ul class="catlist">
+                                        @*<li>
+                                                <a href="#">
+                                                    <img src="~/Content/intranet/images/png/calendar.png" />
+                                                    <div class="spannumber">21</div>
+                                                    <p class="meta-date">December 21, 2013</p>
+                                                    <h2 class="wtitle">Mario Sega</h2>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img src="~/Content/intranet/images/png/calendar.png" />
+                                                    <div class="spannumber">20</div>
+                                                    <p class="meta-date">December 21, 2013</p>
+                                                    <h2 class="wtitle">Juan Quispe</h2>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img src="~/Content/intranet/images/png/calendar.png" />
+                                                    <div class="spannumber">18</div>
+                                                    <p class="meta-date">December 21, 2013</p>
+                                                    <h2 class="wtitle">Mario Sega</h2>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img src="~/Content/intranet/images/png/calendar.png" />
+                                                    <div class="spannumber">14</div>
+                                                    <p class="meta-date">December 21, 2013</p>
+                                                    <h2 class="wtitle">Juan Quispe</h2>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img src="~/Content/intranet/images/png/calendar.png" />
+                                                    <div class="spannumber">10</div>
+                                                    <p class="meta-date">December 21, 2013</p>
+                                                    <h2 class="wtitle">Mario Sega</h2>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img src="~/Content/intranet/images/png/calendar.png" />
+                                                    <div class="spannumber">1</div>
+                                                    <p class="meta-date">December 21, 2013</p>
+                                                    <h2 class="wtitle">Juan Quispe</h2>
+                                                </a>
+                                            </li>*@
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="widget wlistcat" id="actividadesMes">
+                                <h3 class="blocktitle">ACTIVIDADES DE OCTUBRE </h3>
+                                <div class="getcat">
+
+                                    <ul class="catlist">
+                                        @*<li>
+                                                <a href="#">
+                                                    <img src="~/Content/intranet/images/png/actividad.png" />
+                                                    <p class="meta-date">December 21, 2013</p>
+                                                    <h2 class="wtitle">Junction Point closed, Spector leaving Disney</h2>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img src="~/Content/intranet/images/png/actividad.png" />
+                                                    <p class="meta-date">December 21, 2013</p>
+                                                    <h2 class="wtitle">Barack Obama’s Complete 2013 Inauguration Speech</h2>
+                                                </a>
+                                            </li>*@
+                                    </ul>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <footer>
+            <div class="row">
+                <div class="twelve columns">
+                    <section id="footer">
+                        <!-- widget latest comment -->
+                        <div class="eight columns gridfooter">
+                            <div class="widget">
+                                <h3 class="blocktitle"><span id="titulo_izquierda"></span></h3>
+                                <div class="" style="max-height: 260px; width:100%" id="foto_izquierda">
+                                    @* <ul class="listcomment" id="saludos_li">
+
+                                        </ul> *@
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- widget contact -->
+                        <div class="four columns">
+                            <div class="widget">
+                                <h3 class="blocktitle"><span id="titulo_derecha"></span></h3>
+                                <div class="" style="max-height: 260px; width:100%" id="foto_derecha">
+                                    @* <img src="~/Content/intranet/images/logo.png" alt=""><br />
+                                        <p>Av. Manuel E. Olguin Nro. 211 Int. 303 (Edificio Omega) <br />Santiago de Surco,<br /> Lima, Perú</p>
+                                        <br /> *@
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row clear"></div>
+                        <!-- copyright -->
+                        <div class="copyright twelve columns">
+                            <div class="five columns">&copy; Copyright 2019, <span style="">GLADCON</span> GROUP</div>
+                            <div class="seven columns">
+                                <div class="backtop">
+                                    <a href="#container" class="toppage">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div id="modalCumple" class="modal">
+
+        <div id="contenido_cumple_modal" class="modal-content">
+            <div class="header_cumple">Mensaje de Cumpleaños<span class="close">&times;</span></div>
+            <section id="singlepost">
+                <header>
+                    <h1 id="tituloCumpleanios">Este 1ro de Octubre celebraremos el cumpleaños de nuestro colaborador Mario sega, acompáñanos a celebrarlo y saludarlo.</h1>
+                </header>
+                <article>
+
+                    <p id="informacion_puesto">
+                        <strong>Área:</strong> Alimentos y Bebidas<br />
+                        <strong>Puesto:</strong> Coordinador de Alimentos y Bebidas<br />
+                        <strong>Oficina :</strong>Lima - Piso 3<br />
+                    </p>
+                    <div class="commentform" style="padding-left:20px;padding-right:20px;clear:both;">
+                        <form id="formSaludoCumpleanios">
+                            <input type="hidden" name="fk_persona_saludada" id="fk_persona_saludada" value="" />
+                            <input type="hidden" name="fk_persona_que_saluda" id="fk_persona_que_saluda" value="" />
+                            <input type="hidden" name="direccion_envio" id="direccion_envio" value="" />
+                            <strong style="margin-bottom:8px;float:left;width:100%">Enviale un Saludo :</strong>
+                            @*<div style="width: 100%;height: 50px;clear: both;">
+                                    <div class="img_face select_img" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/serio.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/labios.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/lentes.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/sonriente.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/sonrisa.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/guinio.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/mono.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/dientes.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/diablo.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/001-balloon.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/004-monkey.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/006-birthday.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/008-monkey.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/009-candle.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/009-monkey.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/010-monkey.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/013-confetti.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/013-smiling-1.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/014-monkey.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/015-dance.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/021-gifts.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/023-trumpet.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/026-birthday-party.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/030-monkey.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/040-happy-9.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/044-party-hat.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/050-champagne.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/070-tired-1.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/078-tongue.png" /></div>
+                                    <div class="img_face" style="float:left;width:28px;height:24px"><img src="~/Content/intranet/images/faces/102-tongue.png" /></div>
+
+                                </div>*@
+                            <div class="row" style="padding-top:7px;"></div>
+                            <div id="text_message"></div>
+                            @* <textarea rows="4" id="text_mensaje" name="text_mensaje" style="width:100%;margin-top:20px;" placeholder="Mensaje de Cumpleaños"></textarea> *@
+                        </form>
+                        <div style="text-align:right">
+                            <button type="button" class="radius alert button btn_enviar_saludo">ENVIAR SALUDO</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </article>
+
+            </section>
+
+
+        </div>
+    </div>
+
+    <!-- jQuery UI Widget and Effects Core -->
+    <script src="~/Content/intranet/js/foundation.min.js?v=@fecha_archivos" type="text/javascript"></script>
+
+    @*<script src="~/Content/intranetSGC/assets/js/jquery-2.1.4.min.js"></script>*@
+    <script src="~/Content/intranet/js/jquery-ui-1.8.23.custom.min.js?v=@fecha_archivos" type="text/javascript"></script>
+    <script src="~/Content/intranet/js/jquery.easing.min.js?v=@fecha_archivos" type="text/javascript"></script>
+    <!-- Latest version (3.0.6) of jQuery Mouse Wheel by Brandon Aaron -->
+    <script src="~/Content/intranet/js/jquery.mousewheel.min.js?v=@fecha_archivos" type="text/javascript"></script>
+    <!-- jQuery Kinectic (1.5) used for touch scrolling -->
+    <script src="~/Content/intranet/js/jquery.kinetic.js?v=@fecha_archivos" type="text/javascript"></script>
+    <script src="~/Content/intranet/js/pushy.js?v=@fecha_archivos" type="text/javascript"></script>
+    <script src="~/Content/intranet/js/plugins.js?v=@fecha_archivos" type="text/javascript"></script>
+    <script src="~/Content/intranet/js/app.js?v=@fecha_archivos" type="text/javascript"></script>
+    <script src="~/Content/intranet/js/venobox.js?v=@fecha_archivos" type="text/javascript"></script>
+    <script src="~/Content/intranet/js/PgwModal.js?v=@fecha_archivos" type="text/javascript"></script>
+    @* Archivos para general.js *@
+    <script src="~/Content/intranetSGC/pdfviewer/jquery-ui.js"></script>
+    <!-- NProgress -->
+    <script src="~/Content/vendors/nprogress/nprogress.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/pnotify/dist/pnotify.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/pnotify/dist/pnotify.buttons.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/pnotify/dist/pnotify.nonblock.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/loadingoverlay/loadingoverlay.min.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/iCheck/icheck.min.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/moment/moment.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/jquery-validation/jquery.validate.min.js?v=@fecha_archivos"></script>
+    @*<script src="~/Content/intranetSGC/assets/js/bootstrap.min.js"></script>*@
+    <script src="~/Content/intranetSGC/assets/js/jquery.dataTables.min.js?v=@fecha_archivos"></script>
+    <script src="~/Content/intranetSGC/assets/js/jquery.dataTables.bootstrap.min.js?v=@fecha_archivos"></script>
+    <script src="~/Content/intranet/js/wysiwyg.js?v=@fecha_archivos" type="text/javascript"></script>
+    <script src="~/Content/intranet/js/wysiwyg-editor.js?v=@fecha_archivos"></script>
+    <script src="~/Content/viewjs/generalIntranetPJ.js?v=@fecha_archivos"></script>
+    <script>
+        $(document).on('click', '.btnCerrarSesion', function () {
+            $.ajax({
+                type: 'POST',
+                url: basePath + "IntranetPJ/IntranetPJCerrarSesionLoginJson",
+                success: function (response) {
+                    var resp = response.respuesta;
+                    var msj = response.mensaje;
+                    if (resp) {
+                        window.location.replace(basePath + "IntranetPJ/Login");
+                    } else {
+                        alert(msj);
+                    }
+                }
+            });
+        });
+
+
+        function crearEditor() {
+            $('#text_mensaje').each(function (index, element) {
+                textarea = $(element).wysiwyg({
+                    classes: 'some-more-classes',
+                    position: index == 0 ? 'top-selection' : (index == 1 ? 'bottom' : 'selection'),
+                    buttons: {
+                        // Dummy-HTML-Plugin
+                        dummybutton1: index != 1 ? false : {
+                            html: $('<input id="submit" type="button" value="bold" />').click(function () {
+                                // We simply make 'bold'
+                                if ($(element).wysiwyg('selected-html'))
+                                    $(element).wysiwyg('bold');
+                                else
+                                    alert('Please selection some text');
+                            }),
+                            //showstatic: true,    // wanted on the toolbar
+                            showselection: false    // wanted on selection
+                        },
+                        // Dummy-Button-Plugin
+                        dummybutton2: index != 1 ? false : {
+                            title: 'Dummy',
+                            image: '\uf1e7',
+                            click: function ($button) {
+                                alert('Do something');
+                            },
+                            //showstatic: true,    // wanted on the toolbar
+                            showselection: false    // wanted on selection
+                        },
+                        // Smiley-Plugin
+                        smilies: {
+                            title: 'Smilies',
+                            image: '<i class="fa fa-smile-o"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            popup: function ($popup, $button, $editor) {
+                                var list_smilies = [
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/afraid.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/amorous.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/angel.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/angry.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/bored.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/cold.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/confused.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/cross.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/crying.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/devil.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/disappointed.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/dont-know.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/drool.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/embarrassed.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/excited.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/excruciating.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/eyeroll.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/happy.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/hot.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/hug-left.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/hug-right.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/hungry.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/invincible.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/kiss.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/lying.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/meeting.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/nerdy.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/neutral.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/party.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/pirate.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/pissed-off.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/question.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/sad.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/shame.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/shocked.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/shut-mouth.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/sick.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/silent.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/sleeping.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/sleepy.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/stressed.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/thinking.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/tongue.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/uhm-yeah.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/wink.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/working.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/bathing.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/beer.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/boy.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/camera.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/chilli.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/cigarette.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/cinema.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/coffee.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/girl.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/console.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/grumpy.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/in_love.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/internet.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/lamp.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/mobile.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/mrgreen.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/musical-note.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/music.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/phone.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/plate.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/restroom.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/rose.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/search.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/shopping.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/star.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/studying.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/suit.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/surfing.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/thunder.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/tv.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/typing.png" width="22" heigth="22" alt="" />',
+                                    '<img src="' + basePath + 'Content/Intranet/smiley/writing.png" width="22" heigth="22" alt="" />'
+                                ];
+                                var $smilies = $('<div/>').addClass('wysiwyg-toolbar-smilies')
+                                    .attr('unselectable', 'on');
+                                $.each(list_smilies, function (index, smiley) {
+                                    if (index != 0)
+                                        $smilies.append(' ');
+                                    var $image = $(smiley).attr('unselectable', 'on');
+                                    // Append smiley
+                                    var imagehtml = ' ' + $('<div/>').append($image.clone()).html() + ' ';
+                                    $image
+                                        .css({ cursor: 'pointer' })
+                                        .click(function (event) {
+                                            $(element).wysiwyg('inserthtml', imagehtml);
+                                            // do not close popup
+                                            //$(element).wysiwyg('close-popup');
+                                        })
+                                        .appendTo($smilies);
+                                });
+                                $smilies.css({ maxWidth: parseInt($editor.width() * 0.95) + 'px' });
+                                $popup.append($smilies);
+                                // Smilies do not close on click, so force the popup-position to cover the toolbar
+                                var $toolbar = $button.parents('.wysiwyg-toolbar');
+                                if (!$toolbar.length) // selection toolbar?
+                                    return;
+                                var left = 0,
+                                    top = 0,
+                                    node = $toolbar.get(0);
+                                while (node) {
+                                    left += node.offsetLeft;
+                                    top += node.offsetTop;
+                                    node = node.offsetParent;
+                                }
+                                left += parseInt(($toolbar.outerWidth() - $popup.outerWidth()) / 2);
+                                if ($toolbar.hasClass('wysiwyg-toolbar-top'))
+                                    top -= $popup.height() - parseInt($button.outerHeight() * 1 / 4);
+                                else
+                                    top += parseInt($button.outerHeight() * 3 / 4);
+                                $popup.css({
+                                    left: left + 'px',
+                                    top: top + 'px'
+                                });
+                                // prevent applying position
+                                return false;
+                            },
+                            //showstatic: true,    // wanted on the toolbar
+                            showselection: index == 2 ? true : false    // wanted on selection
+                        },
+                        insertimage: {
+                            title: 'Insert image',
+                            image: '<i class="fa fa-camera"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            showstatic: false,    // wanted on the toolbar
+                            showselection: false    // wanted on selection
+                        },
+                        insertlink: {
+                            title: 'Insert link',
+                            image: '<i class="fa fa-external-link"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            showselection: false,
+                            showstatic: false,
+                        },
+                        // Fontanme + Fontsize Plugin
+                        fontname: index == 1 ? false : {
+                            title: 'Font',
+                            image: '<i class="fa fa-font"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            popup: function ($popup, $button, $editor) {
+                                var list_fontnames = {
+                                    // Name : Font
+                                    'Arial, Helvetica': 'Arial,Helvetica',
+                                    'Verdana': 'Verdana,Geneva',
+                                    'Georgia': 'Georgia',
+                                    'Courier New': 'Courier New,Courier',
+                                    'Times New Roman': 'Times New Roman,Times'
+                                };
+                                var $list = $('<div/>').addClass('wysiwyg-toolbar-list')
+                                    .attr('unselectable', 'on');
+                                $.each(list_fontnames, function (name, font) {
+                                    var $link = $('<a/>').attr('href', '#')
+                                        .css('font-family', font)
+                                        .html(name)
+                                        .click(function (event) {
+                                            $(element).wysiwyg('fontname', font);
+                                            $(element).wysiwyg('close-popup');
+                                            // prevent link-href-#
+                                            event.stopPropagation();
+                                            event.preventDefault();
+                                            return false;
+                                        });
+                                    $list.append($link);
+                                });
+                                $popup.append($list);
+                            },
+                            //showstatic: true,    // wanted on the toolbar
+                            showselection: index == 0 ? true : false    // wanted on selection
+                        },
+                        fontsize: index == 1 ? false : {
+                            title: 'Size',
+                            image: '<i class="fa fa-text-height"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            popup: function ($popup, $button, $editor) {
+                                var list_fontsizes = {
+                                    // Name : Size
+                                    'Huge': 7,
+                                    'Larger': 6,
+                                    'Large': 5,
+                                    'Normal': 4,
+                                    'Small': 3,
+                                    'Smaller': 2,
+                                    'Tiny': 1
+                                };
+                                var $list = $('<div/>').addClass('wysiwyg-toolbar-list')
+                                    .attr('unselectable', 'on');
+                                $.each(list_fontsizes, function (name, size) {
+                                    var $link = $('<a/>').attr('href', '#')
+                                        .css('fontSize', (8 + (size * 3)) + 'px')
+                                        .html(name)
+                                        .click(function (event) {
+                                            $(element).wysiwyg('fontsize', size);
+                                            $(element).wysiwyg('close-popup');
+                                            // prevent link-href-#
+                                            event.stopPropagation();
+                                            event.preventDefault();
+                                            return false;
+                                        });
+                                    $list.append($link);
+                                });
+                                $popup.append($list);
+                            }
+                            //showstatic: true,    // wanted on the toolbar
+                            //showselection: true    // wanted on selection
+                        },
+                        bold: {
+                            title: 'Bold (Ctrl+B)',
+                            image: '<i class="fa fa-bold"></i> ', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            hotkey: 'b'
+                        },
+                        italic: {
+                            title: 'Italic (Ctrl+I)',
+                            image: '<i class="fa fa-italic"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            hotkey: 'i'
+                        },
+                        underline: {
+                            title: 'Underline (Ctrl+U)',
+                            image: '<i class="fa fa-underline"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            hotkey: 'u'
+                        },
+                        strikethrough: {
+                            title: 'Strikethrough (Ctrl+S)',
+                            image: '<i class="fa fa-strikethrough"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            hotkey: 's'
+                        },
+                        forecolor: {
+                            title: 'Text color',
+                            image: '<i class="fa fa-circle"></i>' // <img src="path/to/image.png" width="16" height="16" alt="" />
+                        },
+                        highlight: {
+                            title: 'Background color',
+                            image: '<i class="fa fa-tint"></i>' // <img src="path/to/image.png" width="16" height="16" alt="" />
+                        },
+                        alignleft: index != 0 ? false : {
+                            title: 'Left',
+                            image: '<i class="fa fa-align-left"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            //showstatic: true,    // wanted on the toolbar
+                            showselection: false    // wanted on selection
+                        },
+                        aligncenter: index != 0 ? false : {
+                            title: 'Center',
+                            image: '<i class="fa fa-align-center"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            //showstatic: true,    // wanted on the toolbar
+                            showselection: false    // wanted on selection
+                        },
+                        alignright: index != 0 ? false : {
+                            title: 'Right',
+                            image: '<i class="fa fa-align-right"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            //showstatic: true,    // wanted on the toolbar
+                            showselection: false    // wanted on selection
+                        },
+                        alignjustify: index != 0 ? false : {
+                            title: 'Justify',
+                            image: '<i class="fa fa-align-justify"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            //showstatic: true,    // wanted on the toolbar
+                            showselection: false    // wanted on selection
+                        },
+
+                        indent: index != 0 ? false : {
+                            title: 'Indent',
+                            image: '<i class="fa fa-indent"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            //showstatic: true,    // wanted on the toolbar
+                            showselection: false    // wanted on selection
+                        },
+                        outdent: index != 0 ? false : {
+                            title: 'Outdent',
+                            image: '<i class="fa fa-outdent"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            //showstatic: true,    // wanted on the toolbar
+                            showselection: false    // wanted on selection
+                        },
+                        orderedList: index != 0 ? false : {
+                            title: 'Ordered list',
+                            image: '<i class="fa fa-list-ol"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            //showstatic: true,    // wanted on the toolbar
+                            showselection: false    // wanted on selection
+                        },
+                        unorderedList: index != 0 ? false : {
+                            title: 'Unordered list',
+                            image: '<i class="fa fa-list"></i>', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                            //showstatic: true,    // wanted on the toolbar
+                            showselection: false    // wanted on selection
+                        },
+                        removeformat: {
+                            title: 'Remove format',
+                            image: '<i class="fa fa-eraser"></i>' // <img src="path/to/image.png" width="16" height="16" alt="" />
+                        }
+                    },
+                    // Submit-Button
+                    submit: {
+                        title: 'Submit',
+                        image: '\uf00c' // <img src="path/to/image.png" width="16" height="16" alt="" />
+                    },
+                    // Other properties
+                    dropfileclick: 'Drop image or click',
+                    placeholderUrl: 'www.example.com',
+                    maxImageSize: [600, 200]
+                    /*
+                    onImageUpload: function( insert_image ) {
+                                    // Used to insert an image without XMLHttpRequest 2
+                                    // A bit tricky, because we can't easily upload a file
+                                    // via '$.ajax()' on a legacy browser.
+                                    // You have to submit the form into to a '<iframe/>' element.
+                                    // Call 'insert_image(url)' as soon as the file is online
+                                    // and the URL is available.
+                                    // Best way to do: http://malsup.com/jquery/form/
+                                    // For example:
+                                    //$(this).parents('form')
+                                    //       .attr('action','/path/to/file')
+                                    //       .attr('method','POST')
+                                    //       .attr('enctype','multipart/form-data')
+                                    //       .ajaxSubmit({
+                                    //          success: function(xhrdata,textStatus,jqXHR){
+                                    //            var image_url = xhrdata;
+                                    //            console.log( 'URL: ' + image_url );
+                                    //            insert_image( image_url );
+                                    //          }
+                                    //        });
+                                },
+                    onKeyEnter: function() {
+                                    return false; // swallow enter
+                                }
+                    */
+                })
+                    .change(function () {
+                        if (typeof console != 'undefined')
+                            console.log('change');
+                    })
+                    .focus(function () {
+                        if (typeof console != 'undefined')
+                            console.log('focus');
+                    })
+                    .blur(function () {
+                        if (typeof console != 'undefined')
+                            console.log('blur');
+                    });
+            });
+
+        }
+
+
+
+
+
+
+    </script>
+    @RenderSection("js", required: false)
+</body>
+</html>

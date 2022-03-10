@@ -1,0 +1,183 @@
+﻿
+label.validation-invalid-label {
+    margin-top: 3px;
+    display: block;
+    background: #f44336;
+    color: #fff;
+    position: absolute !important;
+    border-radius: 5px;
+    z-index: 3;
+    padding-top: 2px;
+    padding-left: 1.625rem;
+    padding-bottom: 1px;
+    padding-right: 3px;
+    font-size: 12px;
+}
+
+label.validation-valid-label {
+    margin-top: 3px;
+    display: block;
+    background: #4d981e;
+    color: #fff;
+    position: absolute !important;
+    border-radius: 5px;
+    z-index: 3;
+    padding-top: 2px;
+    padding-left: 1.625rem;
+    padding-bottom: 1px;
+    padding-right: 3px;
+    font-size: 12px;
+}
+
+    label.validation-invalid-label:after {
+        border-left: solid transparent 7px !important;
+        border-right: solid transparent 7px;
+        border-bottom: solid #f44336 7px;
+        bottom: 20px;
+        content: " ";
+        height: 0px;
+        left: 50%;
+        margin-left: -10px;
+        position: absolute;
+        width: 0px;
+    }
+
+label.validation-valid-label:after {
+    border-left: solid transparent 7px !important;
+    border-right: solid transparent 7px;
+    border-bottom: solid #4d981e 7px;
+    bottom: 20px;
+    content: " ";
+    height: 0px;
+    left: 50%;
+    margin-left: -10px;
+    position: absolute;
+    width: 0px;
+}
+
+    label.validation-invalid-label:before,
+    label.validation-valid-label:before {
+        font-family: icomoon;
+        font-size: 1rem;
+        position: absolute;
+        top: 5px;
+        left: 4px;
+        display: inline-block;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale
+    }
+
+    label.validation-invalid-label:empty,
+    label.validation-valid-label:empty {
+        display: none !important;
+    }
+
+label.validation-invalid-label:before {
+    content: ""
+}
+
+label.validation-valid-label:before {
+    content: ""
+}
+
+input.validation-invalid-label, select.validation-invalid-label {
+    border: 1px solid red;
+}
+
+input.validation-invalid-label + span {
+    border: 1px solid red;
+}
+
+input.validation-valid-label + span {
+    border: 1px solid #ccc;
+}
+
+.input-group .form-control:focus {
+    z-index: 2 !important;
+}
+
+    .input-group .form-control:focus + span {
+        border: 1px solid #ccc;
+        border-left:none !important;
+    }
+/*//////////////////////////////////////////////////////////////////*/
+
+
+.notify_confirmacion {
+    background: red;
+    color:white;
+}
+
+.jconfirm-box {
+    background-color: red !important;
+    color: white !important;
+}
+
+.jconfirm-buttons button {
+    margin: 1em 4px !important;
+    padding: 0.5em 2em 0.5em 2em !important;
+    width: auto !important;
+    background-color: #000 !important;
+    border: none !important;
+    color: #fff;
+    cursor: pointer !important;
+    font-size: .8em !important;
+    border-radius: 7px !important;
+    background: -moz-linear-gradient(270deg, rgba(105, 221, 201, 1) 0%, rgba(78, 193, 182, 1) 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #555), color-stop(100%, #333)) !important;
+    background: -webkit-linear-gradient(270deg, #555 0%, #333 100%) !important;
+    background: linear-gradient(180deg, #333 0%, rgb(9, 6, 6) 100%) !important;
+    -webkit-box-shadow: 0px 0px 37px -9px rgba(0, 0, 0, 0.75) !important;
+    -moz-box-shadow: 0px 0px 37px -9px rgba(0, 0, 0, 0.75) !important;
+}
+
+.ui-pnotify-text {
+    line-height: 1.2 !important;
+}
+
+.img_postulante {
+    border: 1px solid #d3d6da;
+    padding: 2px;
+    cursor:pointer;
+}
+
+img.avatar-view:hover {
+    cursor: pointer;
+}
+
+.img_postulante label{
+    margin-bottom:-5px !important;
+}
+
+.profile_left{
+    text-align:center;
+}
+
+.form-check{
+    height:30px !important;
+}
+
+.form-control {
+    height:30px !important;
+}
+
+.toggle-group label{
+    line-height:18px !important;
+}
+
+.form-check .toggle{
+    width:100% !important;
+}
+
+.error p {
+    color: #f00 !important;
+}
+
+li.pull-right {
+    border: none !important;
+    background: transparent !important;
+}
+/*.bootstrap-datetimepicker-widget{
+    position:fixed;
+}*/

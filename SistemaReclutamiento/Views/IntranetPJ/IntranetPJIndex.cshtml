@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LayoutIntranetPJ.cshtml";
+}
+
+
+@using System.Activities.Expressions
+@using System.Web.Script.Serialization
+@using System.Web.UI.WebControls
+@{
+    String menu_id = new JavaScriptSerializer().Serialize(ViewBag.menu_id);
+    String persona = new JavaScriptSerializer().Serialize(Session["perIntranet_full"]);
+    String usuario = new JavaScriptSerializer().Serialize(Session["usuIntranet_full"]);
+}
+
+@*<section id="singlepost">
+    <header>
+        <div class="loverate"><a href="#"><i class="fa fa-exclamation-circle"></i></a></div>
+        <h1>NOTICIAS</h1>
+
+    </header>
+    <article>
+
+        <div class="post-content" style="padding: 10px;">
+
+            <div class="">
+                <div class="twelve columns paddingleftright">
+                    <div id="catslide">
+                        <ul id="slider" data-orbit>
+                            <li data-orbit-slide="headline-1" style="width:100%">
+                                <div class="row">
+                                    <div class="twelve columns">
+                                        <div class="itemcatslide">
+                                            <div class="catf">
+                                                <div class="catf-format">
+                                                    <div class="fdate">15<br /><span>Dec</span></div>
+                                                </div>
+                                                <div class="imgslide">
+                                                    <img src="~/Content/intranet/images/img-featured.jpg" alt="" title="" class="slidefeatured">
+                                                </div>
+                                                <div class="catf-caption">
+                                                    <h2>Star Trek Into Darkness is a 2013 American</h2>
+                                                    <span class="meta"><a href="#">MOVIE</a> / 20 Comments / 5 Rate </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li data-orbit-slide="headline-2" style="width:100%">
+                                <div class="row">
+                                    <div class="twelve columns">
+                                        <div class="itemcatslide">
+                                            <div class="catf">
+                                                <div class="catf-format">
+                                                    <div class="fdate">15<br /><span>Dec</span></div>
+                                                </div>
+                                                <div class="imgslide">
+                                                    <img src="~/Content/intranet/images/img-featured2.jpg" alt="" title="" class="slidefeatured">
+                                                </div>
+                                                <div class="catf-caption">
+                                                    <h2>OST. Star Trek Into Darkness is a 2013</h2>
+                                                    <span class="meta"><a href="#">MUSIC</a> / 20 Comments / 5 Rate </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="clear"></div>
+    </article>
+</section>
+<div class="separador"></div>
+
+
+<section id="singlepost">
+    <header>
+        <div class="loverate"><a href="#"><i class="fa fa-exclamation-circle"></i></a></div>
+        <h1>APLICATIVOS FAVORITOS</h1>
+    </header>
+    <article>
+
+        <div class="post-content" style="padding:0px;">
+
+            <section id="cat2news">
+                <!-- Block Featured  -->
+                <div class="featured">
+                    <div class="thumb">
+                        <img src="~/Content/intranet/images/c2.jpg" alt="">
+                        <div class="overlay">
+                            <div class="title-carousel">
+                                <div class="ticarousel"> MESA DE PARTES</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="excerpt">
+                        <p class="meta-date">December 23,2012</p>
+                        <div class="desc">
+                            <p class="pcats">uc option voluptaria ex, nec habeo viris ei. Ne qui tota legendos, nam at debitis tractatos.</p>
+                            <a href="#"><i class="fa fa-external-link"></i> LEER MAS </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Block Category Area -->
+                <div class="othercat">
+                    <ul class="oc-horizon">
+                        <li>
+                            <div class="octhumb">
+                                <a href="#"><img src="~/Content/intranet/images/n3.jpg" alt=""></a>
+                            </div>
+                            <div class="desc">
+                                <a href="#">RESERVA DE SALA</a>
+                                <h4><a href="#"> 5 YouTube Exercises to Strengthen Your Core</a></h4>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="octhumb">
+                                <a href="#"><img src="~/Content/intranet/images/n4.jpg" alt=""></a>
+                            </div>
+                            <div class="desc">
+                                <a href="#">GLPI - SISTEMAS</a>
+                                <h4><a href="#">The 2013 Emmy Award Winners, as Determined by Facebook Buzz</a></h4>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="octhumb">
+                                <a href="#"><img src="~/Content/intranet/images/n5.jpg" alt=""></a>
+                            </div>
+                            <div class="desc">
+                                <a href="#">CONTACTOS</a>
+                                <h4><a href="#">The 2013 Emmy Award Winners, as Determined by Facebook Buzz</a></h4>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+        <div class="clear"></div>
+    </article>
+</section>
+<div class="separador"></div>*@
+
+   
+@section js
+{
+    <script type="text/javascript">
+        menu_id = (@Html.Raw(menu_id));
+        persona = (@Html.Raw(persona));
+        usuario = (@Html.Raw(usuario));
+    </script>
+    <script src="~/Content/viewjs/IntranetPJ/IntranetPJLayoutView.js"></script>
+}

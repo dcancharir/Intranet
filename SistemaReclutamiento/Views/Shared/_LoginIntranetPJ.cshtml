@@ -1,0 +1,140 @@
+﻿@using SistemaReclutamiento.Models;
+@using SistemaReclutamiento.Entidades;
+@using SistemaReclutamiento.Utilitarios;
+@{
+    UsuarioEntidad usuario = (UsuarioEntidad)Session["usu_full"];
+    Seguridad seguridad = new Seguridad();
+    string fecha_archivos = Seguridad.EncriptarCadenaHASH(Convert.ToString(DateTime.Now));
+    if (usuario != null)
+    {
+        Response.Redirect("~/Persona/DatosPersonaVista");
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="~/Content/images/icon.png">
+    <title>GLADCON GROUP</title>
+    <!--BORRAR CACHE-->
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Last-Modified" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <!-- Bootstrap -->
+    <link href="~/Content/vendors/bootstrap/dist/css/bootstrap.min.css?v=@fecha_archivos" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/Content/vendors/font-awesome/css/font-awesome.min.css?v=@fecha_archivos" rel="stylesheet">
+    <link href="~/Content/vendors/icomoon/styles.min.css?v=@fecha_archivos" rel="stylesheet" />
+    <!-- NProgress -->
+    <link href="~/Content/vendors/nprogress/nprogress.css?v=@fecha_archivos" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="~/Content/vendors/animate.css/animate.min.css?v=@fecha_archivos" rel="stylesheet">
+    <link href="~/Content/vendors/pnotify/dist/pnotify.css?v=@fecha_archivos" rel="stylesheet">
+    <link href="~/Content/vendors/pnotify/dist/pnotify.buttons.css?v=@fecha_archivos" rel="stylesheet">
+    <link href="~/Content/vendors/pnotify/dist/pnotify.nonblock.css?v=@fecha_archivos" rel="stylesheet">
+    <link href="~/Content/login.css?v=@fecha_archivos" rel="stylesheet" />
+    <link href="~/Content/vendors/jquery.confirm/jquery-confirm.css?v=@fecha_archivos" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="BasePath" class="hidden">@Request.Url.Scheme://@((Request.Url.Authority + Request.ApplicationPath).TrimEnd('/'))/</div>
+    <div class="login">
+        @RenderBody()
+    </div>
+
+    <script src="~/Content/vendors/jquery/dist/jquery.min.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/bootstrap/dist/js/bootstrap.min.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/pnotify/dist/pnotify.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/pnotify/dist/pnotify.buttons.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/pnotify/dist/pnotify.nonblock.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/loadingoverlay/loadingoverlay.min.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/jquery-validation/jquery.validate.min.js?v=@fecha_archivos"></script>
+    <script src="~/Content/vendors/jquery.confirm/jquery-confirm.js?v=@fecha_archivos"></script>
+    <script src="~/Content/viewjs/general.js?v=@fecha_archivos"></script>
+    @RenderSection("js", required: false)
+
+    <script>
+        $(function () {
+            var tab = $('.tabs h3 a');
+            tab.on('click', function (event) {
+                event.preventDefault();
+                tab.removeClass('active');
+                $(this).addClass('active');
+                tab_content = $(this).attr('href');
+                $('div[id$="tab-content"]').removeClass('active');
+                $(tab_content).addClass('active');
+            });
+        });
+
+        // SLIDESHOW
+        $(function () {
+            $('#slideshow > div:gt(0)').hide();
+            setInterval(function () {
+                $('#slideshow > div:first')
+                    .fadeOut(1000)
+                    .next()
+                    .fadeIn(1000)
+                    .end()
+                    .appendTo('#slideshow');
+            }, 3850);
+        });
+
+        // CUSTOM JQUERY FUNCTION FOR SWAPPING CLASSES
+        (function ($) {
+            'use strict';
+            $.fn.swapClass = function (remove, add) {
+                this.removeClass(remove).addClass(add);
+                return this;
+            };
+        }(jQuery));
+
+        // SHOW/HIDE PANEL ROUTINE (needs better methods)
+        // I'll optimize when time permits.
+        $(function () {
+            $('.agree,.forgot, #toggle-terms, .log-in, .sign-up').on('click', function (event) {
+                event.preventDefault();
+                var terms = $('.terms'),
+                    recovery = $('.recovery'),
+                    close = $('#toggle-terms'),
+                    arrow = $('.tabs-content .fa');
+                if ($(this).hasClass('agree') || $(this).hasClass('log-in') || ($(this).is('#toggle-terms')) && terms.hasClass('open')) {
+                    if (terms.hasClass('open')) {
+                        terms.swapClass('open', 'closed');
+                        close.swapClass('open', 'closed');
+                        arrow.swapClass('active', 'inactive');
+                    } else {
+                        if ($(this).hasClass('log-in')) {
+                            return;
+                        }
+                        terms.swapClass('closed', 'open').scrollTop(0);
+                        close.swapClass('closed', 'open');
+                        arrow.swapClass('inactive', 'active');
+                    }
+                }
+                else if ($(this).hasClass('forgot') || $(this).hasClass('sign-up') || $(this).is('#toggle-terms')) {
+                    if (recovery.hasClass('open')) {
+                        recovery.swapClass('open', 'closed');
+                        close.swapClass('open', 'closed');
+                        arrow.swapClass('active', 'inactive');
+                    } else {
+                        if ($(this).hasClass('sign-up')) {
+                            return;
+                        }
+                        recovery.swapClass('closed', 'open');
+                        close.swapClass('closed', 'open');
+                        arrow.swapClass('inactive', 'active');
+                    }
+                }
+            });
+        });
+
+    </script>
+
+</body>
+</html>
+

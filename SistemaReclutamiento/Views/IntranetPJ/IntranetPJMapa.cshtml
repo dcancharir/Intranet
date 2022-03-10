@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LayoutIntranetPJ.cshtml";
+
+}
+@using System.Activities.Expressions
+@using System.Web.Script.Serialization
+@using System.Web.UI.WebControls
+@{
+    string tipo = new JavaScriptSerializer().Serialize(ViewBag.tipo);
+    String persona = new JavaScriptSerializer().Serialize(Session["perIntranet_full"]);
+    String usuario = new JavaScriptSerializer().Serialize(Session["usuIntranet_full"]);
+}
+
+@section AddToHead
+{
+
+    <link rel="stylesheet" href="~/Content/vendors/openlayers/ol.css" type="text/css">
+    <style>
+        .map {
+            height: 400px;
+            width: 100%;
+            border: 2px solid #e4e4e4;
+        }
+
+        #scroll {
+            max-height: 250px;
+    overflow-y: auto;
+        }
+
+        #nombre-error{
+              margin-bottom: 9px;
+              margin-top: -9px;
+              float: left;
+              color:red;
+        }
+
+    </style>
+
+}
+
+<section id="singlepost">
+    <header>
+        <div class="loverate"><a href="#"><i class="fa fa-exclamation-circle"></i></a></div>
+        <h1>LOCALES</h1>
+        <div class="postmeta">
+            <div class="meta-date">BUSCAR POR <span id="tipoBusqueda"></span> </div>
+        </div>
+
+    </header>
+    <div class="content">
+        <div class="twelve columns listcomments">
+            <div class="twelve columns">
+            <form class="" id="busquedaLocales" style="margin-bottom:0px;">
+                <div class="row collapsable">
+                    <div class="eleven columns">
+                        <input type="hidden" name="tipo" id="tipo" value="" />
+                        <input type="text" class="form-control" autocomplete="off" id="nombre" name="nombre" placeholder="Ingrese Búsqueda ">
+                    </div>
+                </div>
+            </form>
+            <button class="btn btn-primary btn-buscar radius alert button btn_filtro">Buscar</button>
+           
+            </div>
+          
+            <h4 class="lista_titulo" style="font-size:18px;margin-left: 0px;margin-top:0px;">
+            Resultados Búsqueda: 
+            <span class="alert label" style="padding: 2px;" id="span_total_puntos">0</span>
+                <button id="btn_hide_show" title="Mostrar/Ocultar" class="btn btn-xs button" style="float:right;padding: 3px;"><i class="fa fa-eye" style="font-size: 14px;"></i></button>
+            </h4>
+            <div id="scroll">
+                <ul class="listas" id="resultados" style="line-height: 1.4;margin-left: 25px;list-style-type: none;margin-left: 10px;"></ul>
+            </div>
+            <div id="seccion-mapa">
+                <div id="map" class="map"></div>
+                <div id="popup" class="ol-popup">
+                    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                    <div id="popup-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- Olayer Maps -->
+
+@section js
+{
+
+    <script type="text/javascript">
+        menu_id = 0;
+        tipo = (@Html.Raw(tipo));
+        persona = (@Html.Raw(persona));
+        usuario = (@Html.Raw(usuario));
+    </script>
+    <script src="~/Content/vendors/openlayers/ol.js"></script>
+    <script src="~/Content/viewjs/IntranetPJ/IntranetPJLayoutView.js"></script>
+    <script src="~/Content/viewjs/IntranetPJ/IntranetPJMapaView.js"></script>
+}
